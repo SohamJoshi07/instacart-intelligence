@@ -1,0 +1,25 @@
+@"
+# Data files - never commit raw or processed data
+data/raw/
+data/processed/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# MLflow runs
+mlruns/
+
+# Environment files
+.env
+*.egg-info/
+
+# OS files
+.DS_Store
+Thumbs.db
+"@ | Out-File -FilePath ".gitignore" -Encoding utf8
+Write-Host ".gitignore created" -ForegroundColor Green
