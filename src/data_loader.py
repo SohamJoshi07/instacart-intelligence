@@ -3,7 +3,8 @@
 import pandas as pd
 import os
 
-DATA_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'raw')
+DATA_PATH      = os.path.join(os.path.dirname(__file__), '..', 'data', 'raw')
+PROCESSED_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'processed')  # ← ADD THIS
 
 def load_aisles():
     return pd.read_csv(os.path.join(DATA_PATH, 'aisles.csv'))
@@ -21,9 +22,8 @@ def load_order_products_train():
     return pd.read_csv(os.path.join(DATA_PATH, 'order_products__train.csv'))
 
 def load_order_products_prior():
-    # 32 million rows — use correct dtypes to save memory
     return pd.read_csv(
-        os.path.join(DATA_PATH, 'order_products_prior.csv'),
+        os.path.join(DATA_PATH, 'order_products__prior.csv'),
         dtype={
             'order_id':           'int32',
             'product_id':         'int32',
@@ -39,6 +39,33 @@ def load_product_lookup():
     return (products
             .merge(aisles,       on='aisle_id')
             .merge(departments,  on='department_id'))
+
+def load_user_order_summary():
+    path = os.path.join(PROCESSED_PATH, 'user_order_summary.parquet')
+    if not os.path.exists(path):
+        raise FileNotFoundError(
+            "user_order_summary.parquet not found. "
+            "Run notebooks/03_user_order_summary.py first."
+        )
+    return pd.read_parquet(path)
+
+def load_user_rfm():
+    path = os.path.join(PROCESSED_PATH, 'user_rfm.parquet')
+    if not os.path.exists(path):
+        raise FileNotFoundError(
+            "user_rfm.parquet not found. "
+            "Run notebooks/05_customer_segmentation.py first."
+        )
+    return pd.read_parquet(path)
+
+def load_user_segments():
+    path = os.path.join(PROCESSED_PATH, 'user_segments.parquet')
+    if not os.path.exists(path):
+        raise FileNotFoundError(
+            "user_segments.parquet not found. "
+            "Run notebooks/05_customer_segmentation.py first."
+        )
+    return pd.read_parquet(path)
 
 if __name__ == '__main__':
     print('Testing data loader...')
