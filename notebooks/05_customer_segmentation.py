@@ -1,5 +1,9 @@
 import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+
+# Always resolve to project root before anything else
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(PROJECT_ROOT)
+sys.path.insert(0, PROJECT_ROOT)
 
 import pandas as pd
 import numpy as np
